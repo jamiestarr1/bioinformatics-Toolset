@@ -1,0 +1,51 @@
+#!/usr/bin/perl
+#(4*number of lines)-2 is a fastq file format
+#@name of sequence code (which follows on the next line)
+#+name of quality code (which follows on the next line)
+
+
+
+# Open file to read, and check how long it is in lines
+
+
+
+open(DATA1, "<sample_fasta.txt");
+# Open new file to write
+open(DATA2, ">sample_new_fastq.txt"); 
+
+
+# Copy data from one file to another.
+$seqHeader;
+$qualHeader;
+$qualSeq;
+
+
+$count = 1;
+while($line = <DATA1>)  {
+	if ($count==1){
+
+		$seqHeader = $line;
+		$seqHeader =~ tr/>/@/;
+		
+		$qualHeader = $line;
+		$qualHeader =~ tr/>/+/;
+	}
+
+	else {
+		print DATA2 "$seqHeader";
+		
+		print DATA2 "$line";
+		
+		
+		print DATA2 "$qualHeader";
+
+		$qualSeq = $line;
+		$qualSeq =~ tr/ATCG/XXXX/;		
+		print DATA2 "$qualSeq";  
+	}
+	$count++;
+}
+
+
+close( DATA1 );
+close( DATA2 );
